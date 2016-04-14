@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
   int cwd = open("testdir", O_RDONLY | O_DIRECTORY);
@@ -20,6 +21,12 @@ int main() {
   printf("st_size %d\n", st.st_size);
   printf("st_blksize %d\n", st.st_blksize);
   printf("st_blocks %d\n", st.st_blocks);
+
+  int bufmax = 1024;
+  char *buf = (char *)malloc(bufmax);
+  ssize_t len = readlinkat(cwd, "symlink.txt", buf, bufmax);
+  printf("readlinkat returned len %d\n", (int)len);
+  printf("readlinkat returned str %s\n", buf);
 
   return 0;
 }

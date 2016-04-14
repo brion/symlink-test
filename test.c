@@ -26,7 +26,15 @@ int main() {
   char *buf = (char *)malloc(bufmax);
   ssize_t len = readlinkat(cwd, "symlink.txt", buf, bufmax);
   printf("readlinkat returned len %d\n", (int)len);
-  printf("readlinkat returned str %s\n", buf);
+  if (len >= 0) {
+    printf("readlinkat returned str %s\n", buf);
+  }
+
+  len = readlink("testdir/symlink.txt", buf, bufmax);
+  printf("readlink returned len %d\n", (int)len);
+  if (len >= 0) {
+    printf("readlink returned str %s\n", buf);
+  }
 
   return 0;
 }
